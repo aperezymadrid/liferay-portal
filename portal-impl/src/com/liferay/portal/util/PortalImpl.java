@@ -2131,16 +2131,42 @@ public class PortalImpl implements Portal {
 		return request.getParameterValues("groupPermissions");
 	}
 
+	public String[] getGroupPermissions(
+		HttpServletRequest request, String className) {
+
+		return request.getParameterValues("groupPermissions_" + className);
+	}
+
 	public String[] getGroupPermissions(PortletRequest portletRequest) {
 		return portletRequest.getParameterValues("groupPermissions");
+	}
+
+	public String[] getGroupPermissions(
+		PortletRequest portletRequest, String className) {
+
+		return portletRequest.getParameterValues(
+			"groupPermissions_" + className);
 	}
 
 	public String[] getGuestPermissions(HttpServletRequest request) {
 		return request.getParameterValues("guestPermissions");
 	}
 
+	public String[] getGuestPermissions(
+		HttpServletRequest request, String className) {
+
+		return request.getParameterValues("guestPermissions_" + className);
+	}
+
 	public String[] getGuestPermissions(PortletRequest portletRequest) {
 		return portletRequest.getParameterValues("guestPermissions");
+	}
+
+	public String[] getGuestPermissions(
+		PortletRequest portletRequest, String className) {
+
+		return portletRequest.getParameterValues(
+			"guestPermissions_" + className);
 	}
 
 	public String getHomeURL(HttpServletRequest request)
@@ -5712,6 +5738,10 @@ public class PortalImpl implements Portal {
 			long companyId, long groupId, Layout layout, Portlet portlet,
 			boolean portletActions)
 		throws PortalException, SystemException {
+
+		if ((layout != null) && layout.isTypeControlPanel()) {
+			groupId = layout.getGroupId();
+		}
 
 		String rootPortletId = portlet.getRootPortletId();
 
